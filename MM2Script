@@ -1,0 +1,77 @@
+local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/7yhx/kwargs_Ui_Library/main/source.lua"))()
+
+local ReplicatedStorage = game:GetService('ReplicatedStorage');
+local Players = game:GetService('Players');
+local Client = Players.LocalPlayer;
+local Workspace = game:GetService("Workspace")
+local UIS = game:GetService("UserInputService");
+local CoreGui = game:GetService("CoreGui");
+local VirtualUser = game:GetService("VirtualUser");
+
+local Character, Humanoid, RootPart = nil, nil, nil;
+
+function SetCharVars()
+	Character = Client.Character;
+	Humanoid = Character:FindFirstChild("Humanoid") or Character:WaitForChild("Humanoid");
+	RootPart = Character:FindFirstChild("HumanoidRootPart") or Character:WaitForChild("HumanoidRootPart");
+end;
+
+SetCharVars();
+Client.CharacterAdded:Connect(SetCharVars);
+
+local accessories = {}
+function ImortalMode()
+	if game.Players.LocalPlayer.Character then
+		if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+			for _, accessory in pairs(game.Players.LocalPlayer.Character.Humanoid:GetAccessories()) do
+				table.insert(accessories, accessory:Clone())
+			end
+			game.Players.LocalPlayer.Character.Humanoid.Name = "boop"
+		end
+		local v = game.Players.LocalPlayer.Character["boop"]:Clone()
+		v.Parent = game.Players.LocalPlayer.Character
+		v.Name = "Humanoid"
+		wait(0.1)
+		game.Players.LocalPlayer.Character["boop"]:Destroy()
+		workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
+		for _, accessory in pairs(accessories) do
+			game.Players.LocalPlayer.Character.Humanoid:AddAccessory(accessory)
+		end
+		game.Players.LocalPlayer.Character.Animate.Disabled = true
+		wait(0.1)
+		game.Players.LocalPlayer.Character.Animate.Disabled = false
+	end
+end
+
+local UI = Lib:Create{
+    Theme = "Dark", -- or any other theme
+    Size = UDim2.new(0, 555, 0, 400) -- default
+}
+
+local Main = UI:Tab{
+    Name = "Começo"
+}
+
+local Divider = Main:Divider{
+    Name = "Opcoes"
+}
+
+local QuitDivider = Main:Divider{
+    Name = "Sair"
+}
+
+local KillAll = Divider:Button{
+    Name = "Imortal Mod",
+    Description = "You wont gonna die",
+    Callback = function(State)
+        ImortalMode()
+    end
+}
+
+local KillAll = Divider:Button{
+    Name = "See Murder and Sheriff"
+    Description = "Just see them all"
+    Callback = function(State)
+        
+    end
+}
